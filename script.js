@@ -2,6 +2,18 @@ let displayValue = "hello";
 
 updateDisplay(displayValue);
 
+// create a function that updates the display when a button is pressed
+let buttons = document.querySelectorAll("button"); 
+for (button of buttons) {
+    button.addEventListener("click", (e) => updateDisplay(e.target.textContent));
+}
+
+
+
+
+
+
+
 function add(num1, num2) {
     return num1 + num2;
 }
