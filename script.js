@@ -1,3 +1,7 @@
+let displayValue = "hello"; 
+
+updateDisplay(displayValue);
+
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -30,4 +34,9 @@ function operate(num1, operator, num2) {
     else {
         return "error";
     }
+}
+
+function updateDisplay(displayValue) {
+    const display = document.getElementById("display"); 
+    display.textContent = displayValue; 
 }
