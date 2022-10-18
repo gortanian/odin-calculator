@@ -50,6 +50,9 @@ function updateDisplay(value) {
 }
 
 function buttonPressHandler() {
+    // initialize the expression array (is this the right place to initialize? scope issues maybe)
+    let expressionArray = [];
+
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
     let displayValue = '';
@@ -57,6 +60,10 @@ function buttonPressHandler() {
         button.addEventListener("click", function (e) {
             let buttonItem = e.target.textContent;
             if (isNaN(buttonItem)) {
+                if (displayValue !== '') {
+                    expressionArray.push(displayValue);
+                    expressionArray.push(buttonItem);
+                }
                 displayValue = buttonItem;
                 updateDisplay(e.target.textContent);
             }
@@ -67,7 +74,7 @@ function buttonPressHandler() {
                 displayValue += buttonItem;
                 updateDisplay(displayValue);
             }
-            
+            console.log(expressionArray);
         })
     }
 }
