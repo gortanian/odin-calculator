@@ -5,7 +5,6 @@ updateDisplay(INITIAL_DISPLAY_VALUE);
 buttonPressHandler();
 
 // TODO
-// store the calculator items in an array 
 // when = is clicked, calculate the things in the array and display the result
 // when C is clicked, clear out the array and display 0
 
@@ -59,12 +58,23 @@ function buttonPressHandler() {
     for (button of buttons) {
         button.addEventListener("click", function (e) {
             let buttonItem = e.target.textContent;
-            if (isNaN(buttonItem)) {
+            if (buttonItem === 'C') {
+                expressionArray = [];
+                updateDisplay(INITIAL_DISPLAY_VALUE);
+                displayValue = '';
+            }
+            else if (isNaN(buttonItem)) {
                 if (displayValue !== '') {
                     if (!isNaN(displayValue)) {
                         expressionArray.push(displayValue);
                     }
-                    expressionArray.push(buttonItem);
+                    if (buttonItem === '=') {
+                        calculateArrayExpression(expressionArray);
+                    }
+                    else {
+                        expressionArray.push(buttonItem);
+                    }
+                    
                 }
                 displayValue = buttonItem;
                 updateDisplay(e.target.textContent);
@@ -79,4 +89,11 @@ function buttonPressHandler() {
             console.log(expressionArray);
         })
     }
+}
+
+function calculateArrayExpression(array){
+    // TODO calculate the array expression
+
+
+
 }
