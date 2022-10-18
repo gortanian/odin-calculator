@@ -1,14 +1,13 @@
-let displayValue = "hello";
+const INITIAL_DISPLAY_VALUE = "0";
 
-updateDisplay(displayValue);
+updateDisplay(INITIAL_DISPLAY_VALUE);
 
 buttonPressHandler();
 
 // TODO
-// make the display capable of multi-digit numbers
 // store the calculator items in an array 
-// when = is clicked, calculate the things and stuff
-// when C is clicked, clear out the array and display
+// when = is clicked, calculate the things in the array and display the result
+// when C is clicked, clear out the array and display 0
 
 
 function add(num1, num2) {
@@ -45,26 +44,27 @@ function operate(num1, operator, num2) {
     }
 }
 
-function updateDisplay(displayValue) {
+function updateDisplay(value) {
     const display = document.getElementById("display");
-    display.textContent = displayValue;
+    display.textContent = value;
 }
 
 function buttonPressHandler() {
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
+    let displayValue = '';
     for (button of buttons) {
         button.addEventListener("click", function (e) {
-            let userItem = e.target.textContent;
-            if (isNaN(userItem)) {
-                displayValue = userItem;
+            let buttonItem = e.target.textContent;
+            if (isNaN(buttonItem)) {
+                displayValue = buttonItem;
                 updateDisplay(e.target.textContent);
             }
             else {
                 if (isNaN(displayValue)) {
                     displayValue = '';
                 }
-                displayValue += userItem;
+                displayValue += buttonItem;
                 updateDisplay(displayValue);
             }
             
