@@ -61,7 +61,9 @@ function buttonPressHandler() {
             let buttonItem = e.target.textContent;
             if (isNaN(buttonItem)) {
                 if (displayValue !== '') {
-                    expressionArray.push(displayValue);
+                    if (!isNaN(displayValue)) {
+                        expressionArray.push(displayValue);
+                    }
                     expressionArray.push(buttonItem);
                 }
                 displayValue = buttonItem;
