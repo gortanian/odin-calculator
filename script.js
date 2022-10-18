@@ -6,7 +6,6 @@ buttonPressHandler();
 
 // TODO
 // when = is clicked, calculate the things in the array and display the result
-// when C is clicked, clear out the array and display 0
 
 
 function add(num1, num2) {
@@ -58,11 +57,15 @@ function buttonPressHandler() {
     for (button of buttons) {
         button.addEventListener("click", function (e) {
             let buttonItem = e.target.textContent;
+
+            // If user presses clear button, clear the display and expression array 
             if (buttonItem === 'C') {
                 expressionArray = [];
                 updateDisplay(INITIAL_DISPLAY_VALUE);
                 displayValue = '';
             }
+
+            // If the user presses a non-numeric button, update the array and display value
             else if (isNaN(buttonItem)) {
                 if (displayValue !== '') {
                     if (!isNaN(displayValue)) {
@@ -79,6 +82,8 @@ function buttonPressHandler() {
                 displayValue = buttonItem;
                 updateDisplay(e.target.textContent);
             }
+
+            // If the user presses a numeric button, update the display
             else {
                 if (isNaN(displayValue)) {
                     displayValue = '';
