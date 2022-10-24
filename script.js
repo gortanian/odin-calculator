@@ -98,7 +98,28 @@ function buttonPressHandler() {
 
 function calculateArrayExpression(array){
     // TODO calculate the array expression
-
-
-
+    let firstNumberIndex = -1;
+    let lastNumberIndex = -1;
+    for (let i = 0; i < array.length; i++) {
+        if (!isNaN(array[i])) {
+            firstNumberIndex = i; 
+            break;
+        }
+    }
+    for (let i = array.length - 1; i >= 0; i--) { // read the array backwards
+        if (!isNaN(array[i])) {
+            lastNumberIndex = i; 
+            break;
+        }
+    }
+    let trimmedArray = array.slice(firstNumberIndex, lastNumberIndex + 1);
+    for (let i = 0; i < trimmedArray.length; i++) {
+        if (isNaN(trimmedArray[i])) {
+            if (isNaN(trimmedArray[i + 1])) {
+                trimmedArray.splice(i, 1); // remove 1 element at index i
+                i--; // don't skip the shifted array element
+            }
+        }
+    }
+    console.log(trimmedArray);
 }
