@@ -98,17 +98,30 @@ function buttonPressHandler() {
 
 function calculateArrayExpression(array){
     // TODO calculate the array expression
+
+    // trim the array of extraneous operators
+    let trimmedArray = trimArray(array);
+
+    // calculate trimmed array
+    let answer = calculateTrimmedArray(trimmedArray);
+    console.log("the answer is " + answer);
+
+}
+
+function trimArray(array) {
     let firstNumberIndex = -1;
     let lastNumberIndex = -1;
     for (let i = 0; i < array.length; i++) {
         if (!isNaN(array[i])) {
             firstNumberIndex = i; 
+            console.log("checkpoint 1");
             break;
         }
     }
     for (let i = array.length - 1; i >= 0; i--) { // read the array backwards
         if (!isNaN(array[i])) {
             lastNumberIndex = i; 
+            console.log("checkpoint 2");
             break;
         }
     }
@@ -118,8 +131,28 @@ function calculateArrayExpression(array){
             if (isNaN(trimmedArray[i + 1])) {
                 trimmedArray.splice(i, 1); // remove 1 element at index i
                 i--; // don't skip the shifted array element
+                console.log("checkpoint 3");
             }
         }
     }
-    console.log(trimmedArray);
+    return trimmedArray;
+}
+
+function calculateTrimmedArray(array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === "*" || array[i] === "/") {
+            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+            array.slice(i - 1, 1); // remove preceeding number
+            array.slice(i + 1, 1); // remove following number
+        }
+    }
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === "+" || array[i] === "-") {
+            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+            array.slice(i - 1, 1); // remove preceeding number
+            array.slice(i + 1, 1); // remove following number
+        }
+    }
+    console.log("calculated array is " + array);
+    return array[0];
 }
