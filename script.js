@@ -9,7 +9,7 @@ buttonPressHandler();
 
 
 function add(num1, num2) {
-    return num1 + num2;
+    return Number(num1) + Number(num2); // avoid concatenation with Number()
 }
 
 function subtract(num1, num2) {
@@ -103,7 +103,7 @@ function calculateArrayExpression(array){
     let trimmedArray = trimArray(array);
 
     // calculate trimmed array
-    let answer = calculateTrimmedArray(trimmedArray);
+    return calculateTrimmedArray(trimmedArray);
     console.log("the answer is " + answer);
 
 }
@@ -144,7 +144,8 @@ function calculateTrimmedArray(array) {
         if (array[i] === "*" || array[i] === "/") {
             array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
             array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i + 1, 1); // remove following number
+            array.splice(i, 1); // remove following number
+            i = 0; // start back at the beginning
             console.log("after */, the array looks like this: " + array);
         }
     }
@@ -152,7 +153,8 @@ function calculateTrimmedArray(array) {
         if (array[i] === "+" || array[i] === "-") {
             array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
             array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i + 1, 1); // remove following number
+            array.splice(i, 1); // remove following number
+            i = 0; // start back at the beginning
             console.log("after +-, the array looks like this: " + array);
         }
     }
