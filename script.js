@@ -142,7 +142,7 @@ function calculateTrimmedArray(array) {
         if (array[i] === "*" || array[i] === "/") {
             array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
             array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i + 1, 1); // remove following number
+            array.splice(i, 1); // remove following number
             console.log("after */, the array looks like this: " + array);
         }
     }
@@ -150,7 +150,7 @@ function calculateTrimmedArray(array) {
         if (array[i] === "+" || array[i] === "-") {
             array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
             array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i + 1, 1); // remove following number
+            array.splice(i, 1); // remove following number
             console.log("after +-, the array looks like this: " + array);
         }
     }
