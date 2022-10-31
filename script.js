@@ -9,7 +9,7 @@ buttonPressHandler();
 
 
 function add(num1, num2) {
-    return num1 + num2;
+    return Number(num1) + Number(num2);
 }
 
 function subtract(num1, num2) {
@@ -114,14 +114,12 @@ function trimArray(array) {
     for (let i = 0; i < array.length; i++) {
         if (!isNaN(array[i])) {
             firstNumberIndex = i; 
-            console.log("checkpoint 1");
             break;
         }
     }
     for (let i = array.length - 1; i >= 0; i--) { // read the array backwards
         if (!isNaN(array[i])) {
             lastNumberIndex = i; 
-            console.log("checkpoint 2");
             break;
         }
     }
