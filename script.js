@@ -5,7 +5,7 @@ updateDisplay(INITIAL_DISPLAY_VALUE);
 buttonPressHandler();
 
 // TODO
-// Bugs: array isn't cleared after "=" is pressed
+// Bugs: previousAnswer isn't included in calculations when it should be. 
 //       
 
 
@@ -116,7 +116,6 @@ function calculateArrayExpression(array){
     let trimmedArray = trimArray(array);
 
     // calculate trimmed array
-    console.log("the answer is " + calculateTrimmedArray(trimmedArray));
     return calculateTrimmedArray(trimmedArray);
 
 }
@@ -151,22 +150,27 @@ function trimArray(array) {
 
 function calculateTrimmedArray(array) {
     console.log("at first, the trimmed array looks like this: " + array);
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === "*" || array[i] === "/") {
-            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
-            array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i, 1); // remove following number
-            console.log("after */, the array looks like this: " + array);
+    while (array.indexOf("*") !== -1 || array.indexOf("/") !== -1) { 
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === "*" || array[i] === "/") {
+                array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+                array.splice(i - 1, 1); // remove preceeding number
+                array.splice(i, 1); // remove following number
+                console.log("after */, the array looks like this: " + array);
+            }
         }
     }
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === "+" || array[i] === "-") {
-            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
-            array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i, 1); // remove following number
-            console.log("after +-, the array looks like this: " + array);
+    while (array.indexOf("+") !== -1 || array.indexOf("-") !== -1) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === "+" || array[i] === "-") {
+                array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+                array.splice(i - 1, 1); // remove preceeding number
+                array.splice(i, 1); // remove following number
+                console.log("after +-, the array looks like this: " + array);
+            }
         }
     }
+    
     console.log("calculated array is " + array);
     return array[0];
 }
