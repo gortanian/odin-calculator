@@ -5,7 +5,8 @@ updateDisplay(INITIAL_DISPLAY_VALUE);
 buttonPressHandler();
 
 // TODO
-// when = is clicked, calculate the things in the array and display the result
+// Bugs: array isn't cleared after "=" is pressed
+//       
 
 
 function add(num1, num2) {
@@ -50,6 +51,8 @@ function updateDisplay(value) {
 function buttonPressHandler() {
     // initialize the expression array (is this the right place to initialize? scope issues maybe)
     let expressionArray = [];
+    let answer;
+    let previousAnswer;
 
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
@@ -58,11 +61,12 @@ function buttonPressHandler() {
         button.addEventListener("click", function (e) {
             let buttonItem = e.target.textContent;
 
-            // If user presses clear button, clear the display and expression array 
+            // If user presses clear button, clear the display, answer, and expression array 
             if (buttonItem === 'C') {
                 expressionArray = [];
                 updateDisplay(INITIAL_DISPLAY_VALUE);
                 displayValue = '';
+                answer = null;
             }
 
             // If the user presses a non-numeric button, update the array and display value
@@ -72,7 +76,8 @@ function buttonPressHandler() {
                         expressionArray.push(displayValue);
                     }
                     if (buttonItem === '=') {
-                        calculateArrayExpression(expressionArray);
+                        answer = calculateArrayExpression(expressionArray);
+                        expressionArray = [];
                     }
                     else {
                         expressionArray.push(buttonItem);
@@ -80,7 +85,15 @@ function buttonPressHandler() {
                     
                 }
                 displayValue = buttonItem;
-                updateDisplay(e.target.textContent);
+                if (answer != null) {
+                    updateDisplay(answer);
+                    previousAnswer = answer;
+                    answer = null;
+                }
+                else {
+                    updateDisplay(displayValue);
+                }
+                
             }
 
             // If the user presses a numeric button, update the display
@@ -103,8 +116,8 @@ function calculateArrayExpression(array){
     let trimmedArray = trimArray(array);
 
     // calculate trimmed array
-    let answer = calculateTrimmedArray(trimmedArray);
-    console.log("the answer is " + answer);
+    console.log("the answer is " + calculateTrimmedArray(trimmedArray));
+    return calculateTrimmedArray(trimmedArray);
 
 }
 
