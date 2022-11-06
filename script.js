@@ -5,11 +5,12 @@ updateDisplay(INITIAL_DISPLAY_VALUE);
 buttonPressHandler();
 
 // TODO
-// when = is clicked, calculate the things in the array and display the result
+// Bugs: previousAnswer isn't included in calculations when it should be. 
+//       
 
 
 function add(num1, num2) {
-    return Number(num1) + Number(num2); // avoid concatenation with Number()
+    return Number(num1) + Number(num2);
 }
 
 function subtract(num1, num2) {
@@ -50,6 +51,8 @@ function updateDisplay(value) {
 function buttonPressHandler() {
     // initialize the expression array (is this the right place to initialize? scope issues maybe)
     let expressionArray = [];
+    let answer;
+    let previousAnswer;
 
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
@@ -58,11 +61,12 @@ function buttonPressHandler() {
         button.addEventListener("click", function (e) {
             let buttonItem = e.target.textContent;
 
-            // If user presses clear button, clear the display and expression array 
+            // If user presses clear button, clear the display, answer, and expression array 
             if (buttonItem === 'C') {
                 expressionArray = [];
                 updateDisplay(INITIAL_DISPLAY_VALUE);
                 displayValue = '';
+                answer = null;
             }
 
             // If the user presses a non-numeric button, update the array and display value
@@ -72,8 +76,8 @@ function buttonPressHandler() {
                         expressionArray.push(displayValue);
                     }
                     if (buttonItem === '=') {
-                        let answer = calculateArrayExpression(expressionArray);
-                        updateDisplay(answer);
+                        answer = calculateArrayExpression(expressionArray);
+                        expressionArray = [];
                     }
                     else {
                         expressionArray.push(buttonItem);
@@ -81,7 +85,15 @@ function buttonPressHandler() {
                     
                 }
                 displayValue = buttonItem;
-                updateDisplay(e.target.textContent);
+                if (answer != null) {
+                    updateDisplay(answer);
+                    previousAnswer = answer;
+                    answer = null;
+                }
+                else {
+                    updateDisplay(displayValue);
+                }
+                
             }
 
             // If the user presses a numeric button, update the display
@@ -113,14 +125,12 @@ function trimArray(array) {
     for (let i = 0; i < array.length; i++) {
         if (!isNaN(array[i])) {
             firstNumberIndex = i; 
-            console.log("checkpoint 1");
             break;
         }
     }
     for (let i = array.length - 1; i >= 0; i--) { // read the array backwards
         if (!isNaN(array[i])) {
             lastNumberIndex = i; 
-            console.log("checkpoint 2");
             break;
         }
     }
@@ -138,21 +148,28 @@ function trimArray(array) {
 }
 
 function calculateTrimmedArray(array) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === "*" || array[i] === "/") {
-            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
-            array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i, 1); // remove following number
-            i = 0; // start back at the beginning
+    console.log("at first, the trimmed array looks like this: " + array);
+    while (array.indexOf("*") !== -1 || array.indexOf("/") !== -1) { 
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === "*" || array[i] === "/") {
+                array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+                array.splice(i - 1, 1); // remove preceeding number
+                array.splice(i, 1); // remove following number
+                console.log("after */, the array looks like this: " + array);
+            }
         }
     }
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === "+" || array[i] === "-") {
-            array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
-            array.splice(i - 1, 1); // remove preceeding number
-            array.splice(i, 1); // remove following number
-            i = 0; // start back at the beginning
+    while (array.indexOf("+") !== -1 || array.indexOf("-") !== -1) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === "+" || array[i] === "-") {
+                array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
+                array.splice(i - 1, 1); // remove preceeding number
+                array.splice(i, 1); // remove following number
+                console.log("after +-, the array looks like this: " + array);
+            }
         }
     }
+    
+    console.log("calculated array is " + array);
     return array[0];
 }
