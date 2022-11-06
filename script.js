@@ -110,7 +110,6 @@ function buttonPressHandler() {
                 }
                 
             }
-            console.log(expressionArray);
         })
     }
 }
@@ -146,7 +145,6 @@ function trimArray(array) {
             if (isNaN(trimmedArray[i + 1])) {
                 trimmedArray.splice(i, 1); // remove 1 element at index i
                 i--; // don't skip the shifted array element
-                console.log("checkpoint 3");
             }
         }
     }
@@ -154,14 +152,12 @@ function trimArray(array) {
 }
 
 function calculateTrimmedArray(array) {
-    console.log("at first, the trimmed array looks like this: " + array);
     while (array.indexOf("*") !== -1 || array.indexOf("/") !== -1) { 
         for (let i = 0; i < array.length; i++) {
             if (array[i] === "*" || array[i] === "/") {
                 array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
                 array.splice(i - 1, 1); // remove preceeding number
                 array.splice(i, 1); // remove following number
-                console.log("after */, the array looks like this: " + array);
             }
         }
     }
@@ -171,11 +167,8 @@ function calculateTrimmedArray(array) {
                 array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
                 array.splice(i - 1, 1); // remove preceeding number
                 array.splice(i, 1); // remove following number
-                console.log("after +-, the array looks like this: " + array);
             }
         }
     }
-    
-    console.log("calculated array is " + array);
     return array[0];
 }
