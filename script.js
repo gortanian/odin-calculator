@@ -72,7 +72,8 @@ function buttonPressHandler() {
                         expressionArray.push(displayValue);
                     }
                     if (buttonItem === '=') {
-                        calculateArrayExpression(expressionArray);
+                        let answer = calculateArrayExpression(expressionArray);
+                        updateDisplay(answer);
                     }
                     else {
                         expressionArray.push(buttonItem);
@@ -104,8 +105,6 @@ function calculateArrayExpression(array){
 
     // calculate trimmed array
     return calculateTrimmedArray(trimmedArray);
-    console.log("the answer is " + answer);
-
 }
 
 function trimArray(array) {
@@ -139,14 +138,12 @@ function trimArray(array) {
 }
 
 function calculateTrimmedArray(array) {
-    console.log("at first, the trimmed array looks like this: " + array);
     for (let i = 0; i < array.length; i++) {
         if (array[i] === "*" || array[i] === "/") {
             array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
             array.splice(i - 1, 1); // remove preceeding number
             array.splice(i, 1); // remove following number
             i = 0; // start back at the beginning
-            console.log("after */, the array looks like this: " + array);
         }
     }
     for (let i = 0; i < array.length; i++) {
@@ -155,9 +152,7 @@ function calculateTrimmedArray(array) {
             array.splice(i - 1, 1); // remove preceeding number
             array.splice(i, 1); // remove following number
             i = 0; // start back at the beginning
-            console.log("after +-, the array looks like this: " + array);
         }
     }
-    console.log("calculated array is " + array);
     return array[0];
 }
