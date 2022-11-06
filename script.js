@@ -2,12 +2,7 @@ const INITIAL_DISPLAY_VALUE = "0";
 
 updateDisplay(INITIAL_DISPLAY_VALUE);
 
-buttonPressHandler();
-
-// TODO
-// Bugs: previousAnswer isn't included in calculations when it should be. 
-//       
-
+buttonPressHandler();   
 
 function add(num1, num2) {
     return Number(num1) + Number(num2);
@@ -52,7 +47,7 @@ function buttonPressHandler() {
     // initialize the expression array (is this the right place to initialize? scope issues maybe)
     let expressionArray = [];
     let answer;
-    let previousAnswer;
+    let previousAnswer = false;
 
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
@@ -69,11 +64,11 @@ function buttonPressHandler() {
                 answer = null;
             }
 
-            // If the user presses a non-numeric button, update the array and display value
+            // If the user presses an operator button, update the array and display value
             else if (isNaN(buttonItem)) {
-                if (displayValue !== '') {
-                    if (!isNaN(displayValue)) {
-                        expressionArray.push(displayValue);
+                if (displayValue !== '') { // if there is already a display value
+                    if (!isNaN(displayValue)) { // and if that display value is a number
+                        expressionArray.push(displayValue); // add that number to the expression array
                     }
                     if (buttonItem === '=') {
                         answer = calculateArrayExpression(expressionArray);
@@ -84,13 +79,14 @@ function buttonPressHandler() {
                     }
                     
                 }
-                displayValue = buttonItem;
                 if (answer != null) {
                     updateDisplay(answer);
-                    previousAnswer = answer;
+                    displayValue = answer;
                     answer = null;
+                    previousAnswer = true; 
                 }
                 else {
+                    displayValue = buttonItem;
                     updateDisplay(displayValue);
                 }
                 
@@ -101,8 +97,18 @@ function buttonPressHandler() {
                 if (isNaN(displayValue)) {
                     displayValue = '';
                 }
-                displayValue += buttonItem;
-                updateDisplay(displayValue);
+                // first check if the display value is the answer to the previous calculation
+                if (previousAnswer) {
+                    displayValue = buttonItem
+                    previousAnswer = false;
+                    updateDisplay(displayValue);
+                }
+                // if it is, replace it entirely with the button item. 
+                else {
+                    displayValue += buttonItem;
+                    updateDisplay(displayValue);
+                }
+                
             }
             console.log(expressionArray);
         })
