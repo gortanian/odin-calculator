@@ -59,10 +59,14 @@ function buttonPressHandler() {
 
             // If user presses clear button, clear the display, answer, and expression array 
             if (buttonItem === 'C') {
+                display.classList.add("display-animation");
                 expressionArray = [];
                 updateDisplay(INITIAL_DISPLAY_VALUE);
                 displayValue = '';
                 answer = null;
+                setTimeout(function() {
+                    display.classList.remove("display-animation");
+                }, 500);
             }
 
             // If the user presses an operator button, update the array and display value
@@ -72,8 +76,12 @@ function buttonPressHandler() {
                         expressionArray.push(displayValue); // add that number to the expression array
                     }
                     if (buttonItem === '=') {
+                        display.classList.add("display-animation");
                         answer = calculateArrayExpression(expressionArray);
                         expressionArray = [];
+                        setTimeout(function() {
+                            display.classList.remove("display-animation");
+                        }, 500);
                     }
                     else {
                         expressionArray.push(buttonItem);

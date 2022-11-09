@@ -16,12 +16,15 @@
 }
 
 .display-animation {
-    animation: color-change 1s ease-in; 
+    animation: pulse .5s;
 }
 
-@keyframes color-change {
+@keyframes pulse {
+    0% {
+        background-color: white;
+    }
     100% {
-        background-color: red;
+        background-color: #e9e9e9;
     }
 }
 
