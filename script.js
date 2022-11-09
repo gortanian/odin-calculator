@@ -39,7 +39,7 @@ function operate(num1, operator, num2) {
 }
 
 function updateDisplay(value) {
-    const display = document.getElementById("display");
+    const display = document.querySelector(".display");
     display.textContent = value;
 }
 
@@ -51,6 +51,7 @@ function buttonPressHandler() {
 
     // update the display when a button is pressed
     let buttons = document.querySelectorAll("button");
+    const display = document.querySelector(".display");
     let displayValue = '';
     for (button of buttons) {
         button.addEventListener("click", function (e) {
