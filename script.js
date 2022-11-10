@@ -77,7 +77,7 @@ function buttonPressHandler() {
             }
 
             // If the user presses an operator button, update the array and display value
-            else if (isNaN(buttonItem)) {
+            else if (isNaN(buttonItem) && buttonItem != ".") {
                 if (displayValue !== '') { // if there is already a display value
                     if (!isNaN(displayValue)) { // and if that display value is a number
                         expressionArray.push(displayValue); // add that number to the expression array
@@ -101,6 +101,7 @@ function buttonPressHandler() {
                     answer = null;
                     previousAnswer = true; 
                 }
+                
                 else {
                     displayValue = buttonItem;
                     updateDisplay(displayValue);
@@ -121,8 +122,17 @@ function buttonPressHandler() {
                 }
                 // if it is, replace it entirely with the button item. 
                 else {
-                    displayValue += buttonItem;
-                    updateDisplay(displayValue);
+                    if (buttonItem === ".") {
+                        if (!displayValue.includes(".")) { // if the display doesnt already have a "."
+                            displayValue += buttonItem;
+                            updateDisplay(displayValue);
+                        }
+                    }
+                    else {
+                        displayValue += buttonItem;
+                        updateDisplay(displayValue);
+                    }
+                    
                 }
                 
             }
