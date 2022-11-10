@@ -20,6 +20,10 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
+function modulo(num1, num2) {
+    return num1 % num2;
+}
+
 function operate(num1, operator, num2) {
     if (operator === "+") {
         return add(num1, num2);
@@ -32,6 +36,9 @@ function operate(num1, operator, num2) {
     }
     else if (operator === "/") {
         return divide(num1, num2);
+    }
+    else if (operator === "%") {
+        return modulo(num1, num2);
     }
     else {
         return "error";
@@ -161,9 +168,9 @@ function trimArray(array) {
 }
 
 function calculateTrimmedArray(array) {
-    while (array.indexOf("*") !== -1 || array.indexOf("/") !== -1) { 
+    while (array.indexOf("*") !== -1 || array.indexOf("/") !== -1 || array.indexOf("%") !== -1) { 
         for (let i = 0; i < array.length; i++) {
-            if (array[i] === "*" || array[i] === "/") {
+            if (array[i] === "*" || array[i] === "/" || array[i] === "%") {
                 array[i] = operate(array[i - 1], array[i], array[i + 1]); // replace operator with answer
                 array.splice(i - 1, 1); // remove preceeding number
                 array.splice(i, 1); // remove following number
