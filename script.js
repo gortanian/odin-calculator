@@ -78,7 +78,7 @@ function buttonPressHandler() {
 
             // If the user presses an operator button, update the array and display value
             else if (isNaN(buttonItem) && buttonItem != ".") {
-                if (displayValue !== '') { // if there is already a display value
+                if (true) { // if there is already a display value
                     if (!isNaN(displayValue)) { // and if that display value is a number
                         expressionArray.push(displayValue); // add that number to the expression array
                     }
@@ -141,7 +141,14 @@ function buttonPressHandler() {
 }
 
 function calculateArrayExpression(array){
-    // TODO calculate the array expression
+    // TODO deal with parenthesis
+    if (array.includes("(") || array.includes(")")) {
+        let parenthesisStart = array.lastIndexOf("(");
+        let parenthesisEnd = array.slice(parenthesisStart).indexOf(")") + parenthesisStart;
+        let subArray = array.slice(parenthesisStart + 1, parenthesisEnd);
+        let subAnswer = calculateArrayExpression(subArray);
+        array.splice(parenthesisStart, subArray.length + 2, subAnswer);
+    }
 
     // trim the array of extraneous operators
     let trimmedArray = trimArray(array);
@@ -154,13 +161,13 @@ function trimArray(array) {
     let firstNumberIndex = -1;
     let lastNumberIndex = -1;
     for (let i = 0; i < array.length; i++) {
-        if (!isNaN(array[i])) {
+        if (!isNaN(array[i]) && !(array[i] === "")) {
             firstNumberIndex = i; 
             break;
         }
     }
     for (let i = array.length - 1; i >= 0; i--) { // read the array backwards
-        if (!isNaN(array[i])) {
+        if (!isNaN(array[i]) && !(array[i] === "")) {
             lastNumberIndex = i; 
             break;
         }
