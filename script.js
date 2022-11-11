@@ -141,20 +141,25 @@ function buttonPressHandler() {
 }
 
 function calculateArrayExpression(array){
+    
     // TODO deal with parenthesis
-    if (array.includes("(") || array.includes(")")) {
-        let parenthesisStart = array.lastIndexOf("(");
-        let parenthesisEnd = array.slice(parenthesisStart).indexOf(")") + parenthesisStart;
-        let subArray = array.slice(parenthesisStart + 1, parenthesisEnd);
-        let subAnswer = calculateArrayExpression(subArray);
-        array.splice(parenthesisStart, subArray.length + 2, subAnswer);
+    // BUGS: towards the end of the calculation loop, it seems to give up on iterations. stopped at 32 + 1
+
+    for (let i = 0; i < array.length; i++) {
+        if (array.includes("(") || array.includes(")")) {
+            let parenthesisStart = array.lastIndexOf("(");
+            let parenthesisEnd = array.slice(parenthesisStart).indexOf(")") + parenthesisStart;
+            let subArray = array.slice(parenthesisStart + 1, parenthesisEnd);
+            let subAnswer = calculateArrayExpression(subArray);
+            array.splice(parenthesisStart, subArray.length + 2, subAnswer);
+        }
+        // if no parenthesis exist, trim the array of extraneous operators, and calculate
+        else {
+            let trimmedArray = trimArray(array);
+            return calculateTrimmedArray(trimmedArray);
+        }
     }
-
-    // trim the array of extraneous operators
-    let trimmedArray = trimArray(array);
-
-    // calculate trimmed array
-    return calculateTrimmedArray(trimmedArray);
+    
 }
 
 function trimArray(array) {
@@ -205,3 +210,6 @@ function calculateTrimmedArray(array) {
     }
     return array[0];
 }
+
+// debug parenthesis
+console.log(calculateArrayExpression(Array.from("(((2+2)*6)+(3-1)*4)+1")));
