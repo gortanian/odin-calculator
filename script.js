@@ -57,10 +57,10 @@ function updateDisplay(value) {
         display.textContent = value;
     }
     else if (value.length < MAX_DISPLAY_SIZE) {
-        display.textContent = parseFloat(value);
+        display.textContent = value;
     }
     else {
-        display.textContent = parseFloat(Number(value).toPrecision(MAX_DISPLAY_SIZE));
+        display.textContent = Number(value).toPrecision(MAX_DISPLAY_SIZE);
     }
 }
 
