@@ -1,3 +1,6 @@
+// TODO: 
+//      Handle keyboard input
+
 const INITIAL_DISPLAY_VALUE = "0";
 
 updateDisplay(INITIAL_DISPLAY_VALUE);
@@ -47,7 +50,15 @@ function operate(num1, operator, num2) {
 
 function updateDisplay(value) {
     const display = document.querySelector(".display");
-    display.textContent = value;
+    const MAX_DISPLAY_SIZE = 11;
+    value = value.toString();
+
+    if (value.length < MAX_DISPLAY_SIZE) {
+        display.textContent = value;
+    }
+    else {
+        display.textContent = Number(value).toPrecision(MAX_DISPLAY_SIZE);
+    }
 }
 
 function buttonPressHandler() {
@@ -231,6 +242,3 @@ function calculateTrimmedArray(array) {
     }
     return array[0];
 }
-
-// debug parenthesis
-console.log(calculateArrayExpression(Array.from("))((()(((2+2)*6)+(3-1)*4)+1)")));
