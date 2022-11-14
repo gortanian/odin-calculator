@@ -143,9 +143,15 @@ function buttonPressHandler() {
 function calculateArrayExpression(array){
     
     // TODO deal with parenthesis
-    // BUGS: towards the end of the calculation loop, it seems to give up on iterations. stopped at 32 + 1
+    // BUGS: 
+    //       Can't deal with extra unneeded parenthesis
+    //       
 
-    for (let i = 0; i < array.length; i++) {
+    const TIMEOUT = 100; 
+    for (let i = 0; i <= TIMEOUT; i++) {
+        if (i === TIMEOUT) {
+            console.log("calculateArrayExpression timeout reached.");
+        }
         if (array.includes("(") || array.includes(")")) {
             let parenthesisStart = array.lastIndexOf("(");
             let parenthesisEnd = array.slice(parenthesisStart).indexOf(")") + parenthesisStart;
