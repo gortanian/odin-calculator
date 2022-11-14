@@ -141,18 +141,33 @@ function buttonPressHandler() {
 }
 
 function calculateArrayExpression(array){
-    
-    // TODO deal with parenthesis
-    // BUGS: 
-    //       Can't deal with extra unneeded parenthesis
-    //       
 
     const TIMEOUT = 100; 
     for (let i = 0; i <= TIMEOUT; i++) {
         if (i === TIMEOUT) {
             console.log("calculateArrayExpression timeout reached.");
         }
+
         if (array.includes("(") || array.includes(")")) {
+
+            // remove extraneous parenthesis
+            // red flags: missing "(", extra ")"
+            //            missing ")", extra "("
+            //            parenthesisStart > parenthesisEnd ----- parenthesis out of order, remove both parenthesis. 
+            if (array.indexOf("(") === -1) {
+                array.splice(array.indexOf(")"), 1); // remove ")"
+                continue;
+            }
+            else if (array.indexOf(")") === -1) {
+                array.splice(array.indexOf("("), 1); // remove "("
+                continue;
+            }
+            else if (array.indexOf("(") > array.indexOf(")")) {
+                array.splice(array.indexOf(")"), 1); // remove ")"
+                array.splice(array.indexOf("("), 1); // remove "("
+                continue;
+            }
+
             let parenthesisStart = array.lastIndexOf("(");
             let parenthesisEnd = array.slice(parenthesisStart).indexOf(")") + parenthesisStart;
             let subArray = array.slice(parenthesisStart + 1, parenthesisEnd);
@@ -218,4 +233,4 @@ function calculateTrimmedArray(array) {
 }
 
 // debug parenthesis
-console.log(calculateArrayExpression(Array.from("(((2+2)*6)+(3-1)*4)+1")));
+console.log(calculateArrayExpression(Array.from("))((()(((2+2)*6)+(3-1)*4)+1)")));
