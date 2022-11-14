@@ -53,11 +53,14 @@ function updateDisplay(value) {
     const MAX_DISPLAY_SIZE = 11;
     value = value.toString();
 
-    if (value.length < MAX_DISPLAY_SIZE) {
+    if (isNaN(value)) {
         display.textContent = value;
     }
+    else if (value.length < MAX_DISPLAY_SIZE) {
+        display.textContent = parseFloat(value);
+    }
     else {
-        display.textContent = Number(value).toPrecision(MAX_DISPLAY_SIZE);
+        display.textContent = parseFloat(Number(value).toPrecision(MAX_DISPLAY_SIZE));
     }
 }
 
