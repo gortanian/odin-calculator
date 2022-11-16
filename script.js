@@ -1,6 +1,6 @@
-// TODO: 
-//      Handle keyboard input
-//      Fix bug with parenthesis and previous answer
+// Known Bugs: 
+//          Parenthesis after previous answer does not ignore the previous answer
+//          Enter button pressed presses the last button clicked on by the mouse
 
 const INITIAL_DISPLAY_VALUE = "0";
 let expressionArray = [];
@@ -74,12 +74,97 @@ function updateDisplay(value) {
 
 function buttonPressHandler() {
     for (button of buttons) {
-        button.addEventListener("click", buttonPressFunction)
+        button.addEventListener("click", buttonPressFunction);
+        button.addEventListener("keydown", buttonPressFunction);
     }
 }
 
 function buttonPressFunction (e) {
-    let buttonItem = e.target.textContent;
+    let buttonItem;
+
+    if (e.type === "click") { // for clicked input
+        buttonItem = e.target.textContent;
+    }
+
+    // keyboard reading
+    else if (e.type === "keydown") {
+        if (e.shiftKey) { // shift key pressed5
+            if (e.code === "Equal") {
+                buttonItem = "+";
+            }
+            else if (e.code === "Digit8") {
+                buttonItem = "*";
+            }
+            else if (e.code === "Digit9") {
+                buttonItem = "(";
+            }
+            else if (e.code === "Digit0") {
+                buttonItem = ")";
+            }
+            else if (e.code === "Digit5") {
+                buttonItem = "%";
+            }
+            else if (e.code === "KeyC" || e.code === "Backspace") {
+                buttonItem = "C";
+            }
+            else {
+                console.log("invalid key");
+                return;
+            }
+    
+        }
+        else if (e.code === "Slash") { // shift key not pressed
+            buttonItem = "/";
+        }
+        else if (e.code === "KeyC" || e.code === "Backspace") {
+            buttonItem = "C";
+        }
+        else if (e.code === "Digit0") {
+            buttonItem = "0";
+        }
+        else if (e.code === "Minus") {
+            buttonItem = "-";
+        }
+        else if (e.code === "Equal") {
+            buttonItem = "="
+        }
+        else if (e.code === "Period") {
+            buttonItem = ".";
+        }
+        else if (e.code === "Digit1") {
+            buttonItem = "1";
+        }
+        else if (e.code === "Digit2") {
+            buttonItem = "2";
+        }
+        else if (e.code === "Digit3") {
+            buttonItem = "3";
+        }
+        else if (e.code === "Digit4") {
+            buttonItem = "4";
+        }
+        else if (e.code === "Digit5") {
+            buttonItem = "5";
+        }
+        else if (e.code === "Digit6") {
+            buttonItem = "6";
+        }
+        else if (e.code === "Digit7") {
+            buttonItem = "7";
+        }
+        else if (e.code === "Digit8") {
+            buttonItem = "8";
+        }
+        else if (e.code === "Digit9") {
+            buttonItem = "9";
+        }
+        else {
+            console.log("invalid key");
+            return;
+        }
+    }
+    
+    
 
     // If user presses clear button, clear the display, answer, and expression array 
     if (buttonItem === 'C') {
