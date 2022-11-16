@@ -1,7 +1,15 @@
 // TODO: 
 //      Handle keyboard input
+//      Fix bug with parenthesis and previous answer
 
 const INITIAL_DISPLAY_VALUE = "0";
+let expressionArray = [];
+let answer;
+let previousAnswer = false;
+
+let buttons = document.querySelectorAll("button");
+const display = document.querySelector(".display");
+let displayValue = '';
 
 updateDisplay(INITIAL_DISPLAY_VALUE);
 
@@ -65,92 +73,85 @@ function updateDisplay(value) {
 }
 
 function buttonPressHandler() {
-    // initialize the expression array (is this the right place to initialize? scope issues maybe)
-    let expressionArray = [];
-    let answer;
-    let previousAnswer = false;
-
-    // update the display when a button is pressed
-    let buttons = document.querySelectorAll("button");
-    const display = document.querySelector(".display");
-    let displayValue = '';
     for (button of buttons) {
-        button.addEventListener("click", function (e) {
-            let buttonItem = e.target.textContent;
+        button.addEventListener("click", buttonPressFunction)
+    }
+}
 
-            // If user presses clear button, clear the display, answer, and expression array 
-            if (buttonItem === 'C') {
+function buttonPressFunction (e) {
+    let buttonItem = e.target.textContent;
+
+    // If user presses clear button, clear the display, answer, and expression array 
+    if (buttonItem === 'C') {
+        display.classList.add("display-animation");
+        expressionArray = [];
+        updateDisplay(INITIAL_DISPLAY_VALUE);
+        displayValue = '';
+        answer = null;
+        setTimeout(function() {
+            display.classList.remove("display-animation");
+        }, 500);
+    }
+
+    // If the user presses an operator button, update the array and display value
+    else if (isNaN(buttonItem) && buttonItem != ".") {
+        if (true) { // if there is already a display value
+            if (!isNaN(displayValue)) { // and if that display value is a number
+                expressionArray.push(displayValue); // add that number to the expression array
+            }
+            if (buttonItem === '=') {
                 display.classList.add("display-animation");
+                answer = calculateArrayExpression(expressionArray);
                 expressionArray = [];
-                updateDisplay(INITIAL_DISPLAY_VALUE);
-                displayValue = '';
-                answer = null;
                 setTimeout(function() {
                     display.classList.remove("display-animation");
                 }, 500);
             }
-
-            // If the user presses an operator button, update the array and display value
-            else if (isNaN(buttonItem) && buttonItem != ".") {
-                if (true) { // if there is already a display value
-                    if (!isNaN(displayValue)) { // and if that display value is a number
-                        expressionArray.push(displayValue); // add that number to the expression array
-                    }
-                    if (buttonItem === '=') {
-                        display.classList.add("display-animation");
-                        answer = calculateArrayExpression(expressionArray);
-                        expressionArray = [];
-                        setTimeout(function() {
-                            display.classList.remove("display-animation");
-                        }, 500);
-                    }
-                    else {
-                        expressionArray.push(buttonItem);
-                    }
-                    
-                }
-                if (answer != null) {
-                    updateDisplay(answer);
-                    displayValue = answer;
-                    answer = null;
-                    previousAnswer = true; 
-                }
-                
-                else {
-                    displayValue = buttonItem;
-                    updateDisplay(displayValue);
-                }
-                
-            }
-
-            // If the user presses a numeric button, update the display
             else {
-                if (isNaN(displayValue)) {
-                    displayValue = '';
-                }
-                // first check if the display value is the answer to the previous calculation
-                if (previousAnswer) {
-                    displayValue = buttonItem
-                    previousAnswer = false;
+                expressionArray.push(buttonItem);
+            }
+            
+        }
+        if (answer != null) {
+            updateDisplay(answer);
+            displayValue = answer;
+            answer = null;
+            previousAnswer = true; 
+        }
+        
+        else {
+            displayValue = buttonItem;
+            updateDisplay(displayValue);
+        }
+        
+    }
+
+    // If the user presses a numeric button, update the display
+    else {
+        if (isNaN(displayValue)) {
+            displayValue = '';
+        }
+        // first check if the display value is the answer to the previous calculation
+        if (previousAnswer) {
+            displayValue = buttonItem
+            previousAnswer = false;
+            updateDisplay(displayValue);
+        }
+        // if it is, replace it entirely with the button item. 
+        else {
+            if (buttonItem === ".") {
+                if (!displayValue.includes(".")) { // if the display doesnt already have a "."
+                    displayValue += buttonItem;
                     updateDisplay(displayValue);
                 }
-                // if it is, replace it entirely with the button item. 
-                else {
-                    if (buttonItem === ".") {
-                        if (!displayValue.includes(".")) { // if the display doesnt already have a "."
-                            displayValue += buttonItem;
-                            updateDisplay(displayValue);
-                        }
-                    }
-                    else {
-                        displayValue += buttonItem;
-                        updateDisplay(displayValue);
-                    }
-                    
-                }
-                
             }
-        })
+            else {
+                displayValue += buttonItem;
+                updateDisplay(displayValue);
+            }
+            
+        }
+        
     }
 }
 
